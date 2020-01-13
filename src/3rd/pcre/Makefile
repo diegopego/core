@@ -35,7 +35,7 @@ ifneq ($(HB_HAS_PCRE_LOCAL),)
    # only needed for win/wce, for other platforms this is noop
    HB_CFLAGS_STA := -DPCRE_STATIC
 
-   ifeq ($(filter $(HB_PLATFORM),win wince dos vxworks),)
+   ifeq ($(filter $(HB_PLATFORM),win wce dos vxworks),)
       HB_CFLAGS +=  -DHAVE_STDINT_H
    else
       ifeq ($(HB_PLATFORM),sunos)
@@ -80,7 +80,7 @@ endif
 # ORIGIN http://www.pcre.org/
 # VER    8.34
 # URL    ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.34.tar.gz
-# DIFF   pcre.dif
+# DIFF   pcre.diff
 #
 # MAP    LICENCE
 # MAP    config.h.generic               config.h

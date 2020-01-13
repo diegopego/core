@@ -623,6 +623,7 @@ HB_FUN_HB_HHASKEY
 HB_FUN_HB_HKEEPORDER
 HB_FUN_HB_HKEYAT
 HB_FUN_HB_HKEYS
+HB_FUN_HB_HMAC_MD5
 HB_FUN_HB_HMAC_SHA1
 HB_FUN_HB_HMAC_SHA224
 HB_FUN_HB_HMAC_SHA256
@@ -644,6 +645,7 @@ HB_FUN_HB_HSET
 HB_FUN_HB_HSETAUTOADD
 HB_FUN_HB_HSETBINARY
 HB_FUN_HB_HSETCASEMATCH
+HB_FUN_HB_HSETDEF
 HB_FUN_HB_HSETORDER
 HB_FUN_HB_HSORT
 HB_FUN_HB_HVALUEAT
@@ -886,6 +888,7 @@ HB_FUN_HB_MT
 HB_FUN_HB_MTVM
 HB_FUN_HB_MUTEXCREATE
 HB_FUN_HB_MUTEXEVAL
+HB_FUN_HB_MUTEXEXISTS
 HB_FUN_HB_MUTEXLOCK
 HB_FUN_HB_MUTEXNOTIFY
 HB_FUN_HB_MUTEXNOTIFYALL
@@ -909,7 +912,11 @@ HB_FUN_HB_OSDRIVESEPARATOR
 HB_FUN_HB_OSERROR
 HB_FUN_HB_OSFILEMASK
 HB_FUN_HB_OSIS64BIT
+HB_FUN_HB_OSISWIN10
 HB_FUN_HB_OSISWIN2K
+HB_FUN_HB_OSISWIN7
+HB_FUN_HB_OSISWIN8
+HB_FUN_HB_OSISWIN81
 HB_FUN_HB_OSISWIN9X
 HB_FUN_HB_OSISWINCE
 HB_FUN_HB_OSISWINNT
@@ -934,6 +941,8 @@ HB_FUN_HB_PS
 HB_FUN_HB_PVALUE
 HB_FUN_HB_PWRITE
 HB_FUN_HB_RAND32
+HB_FUN_HB_RANDINT
+HB_FUN_HB_RANDNUM
 HB_FUN_HB_RANDOM
 HB_FUN_HB_RANDOMINT
 HB_FUN_HB_RANDOMINTMAX
@@ -1042,6 +1051,7 @@ HB_FUN_HB_STRTOUTF8
 HB_FUN_HB_STRXOR
 HB_FUN_HB_THREADDETACH
 HB_FUN_HB_THREADID
+HB_FUN_HB_THREADISMAIN
 HB_FUN_HB_THREADJOIN
 HB_FUN_HB_THREADONCE
 HB_FUN_HB_THREADONCEINIT
@@ -1131,6 +1141,7 @@ HB_FUN_HB_VFLINKSYM
 HB_FUN_HB_VFLOAD
 HB_FUN_HB_VFLOCK
 HB_FUN_HB_VFLOCKTEST
+HB_FUN_HB_VFMOVEFILE
 HB_FUN_HB_VFOPEN
 HB_FUN_HB_VFREAD
 HB_FUN_HB_VFREADAT
@@ -1146,6 +1157,7 @@ HB_FUN_HB_VFUNLOCK
 HB_FUN_HB_VFWRITE
 HB_FUN_HB_VFWRITEAT
 HB_FUN_HB_WAEVAL
+HB_FUN_HB_WEEK
 HB_FUN_HB_WILDMATCH
 HB_FUN_HB_WILDMATCHI
 HB_FUN_HB_ZCOMPRESS
@@ -1836,6 +1848,7 @@ HB_FUN___MVCLEAR
 HB_FUN___MVDBGINFO
 HB_FUN___MVEXIST
 HB_FUN___MVGET
+HB_FUN___MVGETDEF
 HB_FUN___MVPRIVATE
 HB_FUN___MVPUBLIC
 HB_FUN___MVPUT
@@ -1912,6 +1925,7 @@ HB_FUN___TRACEPRGCALLS
 HB_FUN___TYPEFILE
 HB_FUN___VMCOUNTTHREADS
 HB_FUN___VMITEMID
+HB_FUN___VMITEMREFS
 HB_FUN___VMMODULESVERIFY
 HB_FUN___VMNOINTERNALS
 HB_FUN___WAIT
@@ -1982,6 +1996,9 @@ gzungetc
 gzvprintf
 gzwrite
 hb_adler32
+hb_arc4random
+hb_arc4random_buf
+hb_arc4random_uniform
 hb_arrayAdd
 hb_arrayAddForward
 hb_arrayBaseParams
@@ -2025,6 +2042,7 @@ hb_arrayIsObject
 hb_arrayLast
 hb_arrayLen
 hb_arrayNew
+hb_arrayRefs
 hb_arrayRevScan
 hb_arrayScan
 hb_arraySelfParams
@@ -2155,6 +2173,7 @@ hb_cmdargInit
 hb_cmdargIsInternal
 hb_cmdargProgName
 hb_codeblockId
+hb_codeblockRefs
 hb_comClose
 hb_comDiscardChar
 hb_comErrorChar
@@ -2316,8 +2335,10 @@ hb_dateCDOW
 hb_dateCMonth
 hb_dateDOW
 hb_dateDecStr
+hb_dateDecWeek
 hb_dateDecode
 hb_dateEncStr
+hb_dateEncWeek
 hb_dateEncode
 hb_dateFormat
 hb_dateJulianDOW
@@ -2454,6 +2475,7 @@ hb_fileLoad
 hb_fileLoadData
 hb_fileLock
 hb_fileLockTest
+hb_fileMove
 hb_filePOpen
 hb_fileParam
 hb_fileRead
@@ -2693,6 +2715,7 @@ hb_hashJoin
 hb_hashLen
 hb_hashNew
 hb_hashPreallocate
+hb_hashRefs
 hb_hashRemove
 hb_hashScan
 hb_hashScanSoft
@@ -2706,6 +2729,7 @@ hb_hashTableFind
 hb_hashTableKill
 hb_hashTableResize
 hb_hashTableSize
+hb_hmac_md5
 hb_idleReset
 hb_idleSleep
 hb_idleState
@@ -2726,11 +2750,14 @@ hb_inkeySetText
 hb_iswin10
 hb_iswin2k
 hb_iswin2k3
+hb_iswin7
 hb_iswin8
 hb_iswin81
 hb_iswin9x
 hb_iswince
+hb_iswine
 hb_iswinnt
+hb_iswinsp
 hb_iswinver
 hb_iswinvista
 hb_itemArrayGet
@@ -2814,6 +2841,7 @@ hb_itemPutNLLLen
 hb_itemPutNLLen
 hb_itemPutNLen
 hb_itemPutNS
+hb_itemPutNil
 hb_itemPutNumType
 hb_itemPutPtr
 hb_itemPutPtrGC
@@ -2843,6 +2871,7 @@ hb_itemStrICmp
 hb_itemString
 hb_itemSwap
 hb_itemType
+hb_itemTypeCmp
 hb_itemTypeStr
 hb_itemUnRef
 hb_itemUnRefOnce
@@ -3033,6 +3062,7 @@ hb_put_ieee754
 hb_put_ord_ieee754
 hb_random_block
 hb_random_num
+hb_random_num_secure
 hb_random_seed
 hb_rddAllocWorkAreaAlias
 hb_rddCloseAll
@@ -3447,6 +3477,9 @@ hb_timeStrGet
 hb_timeStrRawGet
 hb_timeUTCOffset
 hb_timeUnformat
+hb_timerGet
+hb_timerInit
+hb_timerTest
 hb_tr_level
 hb_tr_stealth
 hb_tr_trace
@@ -3544,6 +3577,7 @@ hb_vmSuspendThreads
 hb_vmSymbolInit_RT
 hb_vmTerminateThreads
 hb_vmThreadInit
+hb_vmThreadIsMain
 hb_vmThreadQuit
 hb_vmThreadQuitRequest
 hb_vmThreadRegister

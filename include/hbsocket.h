@@ -1,5 +1,5 @@
 /*
- * socket C API
+ * Socket C API
  *
  * Copyright 2009 Przemyslaw Czerpak <druzus / at / priv.onet.pl>
  *
@@ -14,9 +14,9 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this software; see the file COPYING.txt.  If not, write to
- * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA 02111-1307 USA (or visit the web site https://www.gnu.org/).
+ * along with this program; see the file LICENSE.txt.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA (or visit https://www.gnu.org/licenses/).
  *
  * As a special exception, the Harbour Project gives permission for
  * additional uses of the text contained in its release of Harbour.
@@ -69,6 +69,7 @@ extern HB_EXPORT int          hb_socketGetError( void );
 extern HB_EXPORT int          hb_socketGetOsError( void );
 extern HB_EXPORT const char * hb_socketErrorStr( int iError );
 extern HB_EXPORT void         hb_socketSetError( int iError );
+extern HB_EXPORT HB_U16       hb_socketNToHS( HB_U16 netshort );
 extern HB_EXPORT int          hb_socketGetAddrFamily( const void * pSockAddr, unsigned len );
 extern HB_EXPORT HB_BOOL      hb_socketLocalAddr( void ** pSockAddr, unsigned * puiLen, const char * szAddr );
 extern HB_EXPORT HB_BOOL      hb_socketInetAddr( void ** pSockAddr, unsigned * puiLen, const char * szAddr, int iPort );

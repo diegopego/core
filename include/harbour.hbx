@@ -527,6 +527,7 @@ DYNAMIC hb_HHasKey
 DYNAMIC hb_HKeepOrder
 DYNAMIC hb_HKeyAt
 DYNAMIC hb_HKeys
+DYNAMIC hb_HMAC_MD5
 DYNAMIC hb_HMAC_SHA1
 DYNAMIC hb_HMAC_SHA224
 DYNAMIC hb_HMAC_SHA256
@@ -548,6 +549,7 @@ DYNAMIC hb_HSet
 DYNAMIC hb_HSetAutoAdd
 DYNAMIC hb_HSetBinary
 DYNAMIC hb_HSetCaseMatch
+DYNAMIC hb_HSetDef
 DYNAMIC hb_HSetOrder
 DYNAMIC hb_HSort
 DYNAMIC hb_HValueAt
@@ -700,6 +702,7 @@ DYNAMIC hb_MSecToT
 DYNAMIC hb_mtvm
 DYNAMIC hb_mutexCreate
 DYNAMIC hb_mutexEval
+DYNAMIC hb_mutexExists
 DYNAMIC hb_mutexLock
 DYNAMIC hb_mutexNotify
 DYNAMIC hb_mutexNotifyAll
@@ -724,7 +727,11 @@ DYNAMIC hb_osDriveSeparator
 DYNAMIC hb_osError
 DYNAMIC hb_osFileMask
 DYNAMIC hb_osIs64bit
+DYNAMIC hb_osIsWin10
 DYNAMIC hb_osIsWin2K
+DYNAMIC hb_osIsWin7
+DYNAMIC hb_osIsWin8
+DYNAMIC hb_osIsWin81
 DYNAMIC hb_osIsWin9x
 DYNAMIC hb_osIsWinCE
 DYNAMIC hb_osIsWinNT
@@ -749,6 +756,8 @@ DYNAMIC hb_ps
 DYNAMIC hb_PValue
 DYNAMIC hb_PWrite
 DYNAMIC hb_rand32
+DYNAMIC hb_randInt
+DYNAMIC hb_randNum
 DYNAMIC hb_Random
 DYNAMIC hb_RandomInt
 DYNAMIC hb_RandomIntMax
@@ -857,6 +866,7 @@ DYNAMIC hb_StrToUTF8
 DYNAMIC hb_StrXor
 DYNAMIC hb_threadDetach
 DYNAMIC hb_threadID
+DYNAMIC hb_threadIsMain
 DYNAMIC hb_threadJoin
 DYNAMIC hb_threadOnce
 DYNAMIC hb_threadOnceInit
@@ -946,6 +956,7 @@ DYNAMIC hb_vfLinkSym
 DYNAMIC hb_vfLoad
 DYNAMIC hb_vfLock
 DYNAMIC hb_vfLockTest
+DYNAMIC hb_vfMoveFile
 DYNAMIC hb_vfOpen
 DYNAMIC hb_vfRead
 DYNAMIC hb_vfReadAt
@@ -961,6 +972,7 @@ DYNAMIC hb_vfUnlock
 DYNAMIC hb_vfWrite
 DYNAMIC hb_vfWriteAt
 DYNAMIC hb_WAEval
+DYNAMIC hb_Week
 DYNAMIC hb_WildMatch
 DYNAMIC hb_WildMatchI
 DYNAMIC hb_ZCompress
@@ -1519,6 +1531,7 @@ DYNAMIC __mvClear
 DYNAMIC __mvDbgInfo
 DYNAMIC __mvExist
 DYNAMIC __mvGet
+DYNAMIC __mvGetDef
 DYNAMIC __mvPrivate
 DYNAMIC __mvPublic
 DYNAMIC __mvPut
@@ -1588,6 +1601,7 @@ DYNAMIC __TracePrgCalls
 DYNAMIC __TypeFile
 DYNAMIC __vmCountThreads
 DYNAMIC __vmItemID
+DYNAMIC __vmItemRefs
 DYNAMIC __vmModulesVerify
 DYNAMIC __vmNoInternals
 DYNAMIC __Wait

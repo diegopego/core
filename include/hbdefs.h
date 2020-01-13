@@ -14,9 +14,9 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this software; see the file COPYING.txt.  If not, write to
- * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA 02111-1307 USA (or visit the web site https://www.gnu.org/).
+ * along with this program; see the file LICENSE.txt.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA (or visit https://www.gnu.org/licenses/).
  *
  * As a special exception, the Harbour Project gives permission for
  * additional uses of the text contained in its release of Harbour.
@@ -59,7 +59,7 @@
 #if defined( __XCC__ ) || defined( __POCC__ ) || defined( __LCC__ ) || \
     defined( __MINGW32__ ) || defined( __DMC__ ) || defined( __TINYC__ ) || \
     ( defined( _MSC_VER ) && _MSC_VER >= 1600 ) || \
-    ( defined( __BORLANDC__ ) && __BORLANDC__ >= 1410 ) || \
+    ( defined( __BORLANDC__ ) && __BORLANDC__ >= 0x0582 ) || \
     ( defined( __WATCOMC__ ) && __WATCOMC__ >= 1270 ) || \
     ( ( defined( __GNUC__ ) || defined( __SUNPRO_C ) || defined( __SUNPRO_CC ) ) && \
       ( defined( _ISOC99_SOURCE ) || defined( _STDC_C99 ) || \
@@ -78,8 +78,7 @@
 #  if defined( HB_OS_VXWORKS ) && defined( _INTPTR ) && ! defined( _INTPTR_T )
 #     define _INTPTR_T
 #  endif
-   /* workaround for BCC 5.8 bug */
-   #if ( defined( __BORLANDC__ ) && __BORLANDC__ >= 1410 )
+   #if ( defined( __BORLANDC__ ) && __BORLANDC__ >= 0x0582 )  /* workaround for compiler bug */
       #undef INT32_MIN
       #define INT32_MIN ((int32_t) (-INT32_MAX-1))
       #undef INT64_MIN
@@ -89,10 +88,20 @@
    #endif
 #endif
 
-/*
+#if ( defined( __GNUC__ ) || defined( __SUNPRO_C ) || defined( __SUNPRO_CC ) ) && \
+    ( defined( _ISOC99_SOURCE ) || defined( _STDC_C99 ) || \
+      ( defined( __STDC_VERSION__ ) && __STDC_VERSION__ >= 199901L ) )
+   #define HB_C99_STATIC    static
+   #define HB_C99_RESTRICT  restrict
+#else
+   #define HB_C99_STATIC
+   #define HB_C99_RESTRICT
+#endif
+
+#if 0
 #define HB_CLIPPER_INT_ITEMS
 #define HB_LONG_LONG_OFF
-*/
+#endif
 
 #if defined( HB_OS_WIN )
    #if defined( HB_OS_WIN_64 )
@@ -473,13 +482,19 @@ typedef HB_MAXUINT   HB_VMMAXUINT;
 #define HB_LIM_INT32(l)       ( INT32_MIN <= (l) && (l) <= INT32_MAX )
 #define HB_LIM_INT64(l)       ( INT64_MIN <= (l) && (l) <= INT64_MAX )
 
+#define HB_CAST_INT( d )      ( ( int ) ( HB_MAXINT ) ( d ) )
+#define HB_CAST_LONG( d )     ( ( long ) ( HB_MAXINT ) ( d ) )
+#define HB_CAST_LONGLONG( d ) ( ( HB_LONGLONG ) ( d ) )
+#define HB_CAST_MAXINT( d )   ( ( HB_MAXINT ) ( d ) )
+#define HB_CAST_ISIZ( d )     ( ( HB_ISIZ ) ( HB_MAXINT ) ( d ) )
+
 /*
  * It's a hack for compilers which don't support LL suffix for LONGLONG
  * numeric constant. This suffix is necessary for some compilers -
  * without it they cut the number to HB_LONG
  */
 #if defined( __BORLANDC__ )
-#  if __BORLANDC__ >= 1328
+#  if __BORLANDC__ >= 0x530
 #     define HB_LL( num )           num##i64
 #     define HB_ULL( num )          num##ui64
 #  else
@@ -551,7 +566,9 @@ typedef HB_MAXUINT   HB_VMMAXUINT;
 /* #define PCODE_LONG_LIM(l)     HB_LIM_LONG( l ) */
 
 /* type of HB_ITEM */
-/* typedef USHORT HB_TYPE; */
+#if 0
+typedef USHORT HB_TYPE;
+#endif
 typedef HB_U32 HB_TYPE;
 
 /* type of file attributes */
@@ -634,7 +651,7 @@ typedef HB_U32 HB_FATTR;
 #if ! defined( HB_PDP_ENDIAN ) && ! defined( HB_BIG_ENDIAN ) && \
     ! defined( HB_LITTLE_ENDIAN )
 
-   /* I intentionaly move the first two #if/#elif to the begining
+   /* I intentionaly move the first two #if/#elif to the beginning
       to avoid compiler error when this macro will be defined as
       empty statement in next conditions, F.e. SunOS
     */
@@ -1391,29 +1408,29 @@ typedef HB_U32 HB_FATTR;
                                       ( ( ( HB_I32 ) (( const HB_BYTE * )( p ))[ 0 ] ) | \
                                         ( ( HB_I32 ) (( const HB_BYTE * )( p ))[ 1 ] <<  8 ) | \
                                         ( ( HB_I32 ) (( const HB_BYTE * )( p ))[ 2 ] << 16 ) | \
-                                        ( ( HB_I32 ) ((( const HB_BYTE * )( p ))[ 2 ] & 0x80 ? 0xFF : 0x00 ) << 24 ) ) )
+                                        ( ( HB_I32 ) (((( const HB_BYTE * )( p ))[ 2 ] & 0x80 ) ? 0xFF : 0x00 ) << 24 ) ) )
 #define HB_GET_LE_UINT24( p )       ( ( HB_U32 ) \
                                       ( ( ( HB_U32 ) (( const HB_BYTE * )( p ))[ 0 ] ) | \
                                         ( ( HB_U32 ) (( const HB_BYTE * )( p ))[ 1 ] <<  8 ) | \
                                         ( ( HB_U32 ) (( const HB_BYTE * )( p ))[ 2 ] << 16 ) ) )
 #define HB_PUT_LE_UINT24( p, u )    do { \
                                        (( HB_BYTE * )( p ))[ 0 ] = ( HB_BYTE )( u ); \
-                                       (( HB_BYTE * )( p ))[ 1 ] = ( HB_BYTE )( (u) >>  8 ); \
-                                       (( HB_BYTE * )( p ))[ 2 ] = ( HB_BYTE )( (u) >> 16 ); \
+                                       (( HB_BYTE * )( p ))[ 1 ] = ( HB_BYTE )( ( u ) >>  8 ); \
+                                       (( HB_BYTE * )( p ))[ 2 ] = ( HB_BYTE )( ( u ) >> 16 ); \
                                     } while( 0 )
 #define HB_GET_BE_INT24( p )        ( ( HB_I32 ) \
                                       ( ( ( HB_I32 ) (( const HB_BYTE * )( p ))[ 2 ] ) | \
                                         ( ( HB_I32 ) (( const HB_BYTE * )( p ))[ 1 ] <<  8 ) | \
                                         ( ( HB_I32 ) (( const HB_BYTE * )( p ))[ 0 ] << 16 ) | \
-                                        ( ( HB_I32 ) ((( const HB_BYTE * )( p ))[ 0 ] & 0x80 ? 0xFF : 0x00 ) << 24 ) ) )
+                                        ( ( HB_I32 ) (((( const HB_BYTE * )( p ))[ 0 ] & 0x80 ) ? 0xFF : 0x00 ) << 24 ) ) )
 #define HB_GET_BE_UINT24( p )       ( ( HB_U32 ) \
                                       ( ( ( HB_U32 ) (( const HB_BYTE * )( p ))[ 2 ] ) | \
                                         ( ( HB_U32 ) (( const HB_BYTE * )( p ))[ 1 ] <<  8 ) | \
                                         ( ( HB_U32 ) (( const HB_BYTE * )( p ))[ 0 ] << 16 ) ) )
 #define HB_PUT_BE_UINT24( p, u )    do { \
                                        (( HB_BYTE * )( p ))[ 2 ] = ( HB_BYTE )( u ); \
-                                       (( HB_BYTE * )( p ))[ 1 ] = ( HB_BYTE )( (u) >>  8 ); \
-                                       (( HB_BYTE * )( p ))[ 0 ] = ( HB_BYTE )( (u) >> 16 ); \
+                                       (( HB_BYTE * )( p ))[ 1 ] = ( HB_BYTE )( ( u ) >>  8 ); \
+                                       (( HB_BYTE * )( p ))[ 0 ] = ( HB_BYTE )( ( u ) >> 16 ); \
                                     } while( 0 )
 
 
@@ -1474,7 +1491,7 @@ typedef HB_U32 HB_FATTR;
    #define HB_SYMBOL_UNUSED( symbol )  ( void ) symbol
 #endif
 
-/* ***********************************************************************
+/*
  * The name of starting procedure
  * Note: You have to define it in case when Harbour cannot find the proper
  * starting procedure (due to unknown order of static data initialization)
